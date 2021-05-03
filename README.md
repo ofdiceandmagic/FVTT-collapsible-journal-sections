@@ -10,6 +10,6 @@ Apply this style to any text to make it never collapse.
 Text before and after it will collapse as normal. 
 
 # Settings
-## Default Collapsed State
-**Shown.** When you open a journal entry, all the sections will be shown.
+#### Default Collapsed State
+**Shown.** When you open a journal entry, all the sections will be shown.  
 **Hidden.** When you open a journal entry, only top-level headings will be shown.
