@@ -16,6 +16,9 @@
   content: '[+]';
 }
 
+section.cjs-no_collapse{
+  border-left: 2px dotted #782e22;
+}
 section.cjs-no_collapse *:first-child:before {
   content: '[x] ';
 }
