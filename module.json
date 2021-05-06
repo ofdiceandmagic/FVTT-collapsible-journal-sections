@@ -3,12 +3,17 @@
   "title": "Collapsible Journal Sections",
   "description": "All Headings, when clicked, will collapsed all of the content in that section. Also adds a custom style in the journal that you can use to define sections that won't ever be collapsed.",
   "author": "Of Dice And Magic",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "minimumCoreVersion": "0.7.0",
   "scripts": [
 	  "cjs.js"
 	],
   "styles": [
 		"cjs.css"
-	]
+	],
+  "url": "https://github.com/ofdiceandmagic/FVTT-collapsible-journal-sections",
+  "manifest": "https://raw.githubusercontent.com/ofdiceandmagic/FVTT-collapsible-journal-sections/master/module.json",
+  "download": "https://github.com/ofdiceandmagic/FVTT-collapsible-journal-sections/archive/refs/heads/main.zip",
+  "license": "https://github.com/ofdiceandmagic/FVTT-collapsible-journal-sections/blob/main/LICENSE",
+  "readme": "https://github.com/ofdiceandmagic/FVTT-collapsible-journal-sections/blob/main/README.md"
 }
