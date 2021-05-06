@@ -4,7 +4,7 @@ All Headings, when clicked, will collapsed all of the content in that section. A
 ## Auto-Collapsible Headings
 All headings are automatically collapsible. Just click on a heading to collapse its contents.
 
-## The No Collapse Style
+## The 'No Collapse' Style
 A new custom style called No Collapse is added to the editor. You can find it in the Custom menu.
 Apply this style to any text to make it never collapse.
 Text before and after it will collapse as normal. 
