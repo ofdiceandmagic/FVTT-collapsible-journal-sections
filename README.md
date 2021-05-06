@@ -11,5 +11,5 @@ Text before and after it will collapse as normal.
 
 ## Settings
 #### Default Collapsed State
-**Shown.** When you open a journal entry, all the sections will be shown.  
-**Collapsed.** When you open a journal entry, only top-level headings will be shown.
+**_Shown._** When you open a journal entry, all the sections will be shown.  
+**_Collapsed._** When you open a journal entry, only top-level headings will be shown.
