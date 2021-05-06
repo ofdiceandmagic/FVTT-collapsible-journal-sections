@@ -12,11 +12,8 @@
   content:'[+]';
 }
 
-.cjs-collapsedSect, .cjs-collapsible:hover {
-  /*
-  background-color: #666;
-  color: #fefefe;
-  */
+.cjs-collapsedSect::before {
+  content: '[+]';
 }
 
 section.cjs-no_collapse *:first-child:before {
