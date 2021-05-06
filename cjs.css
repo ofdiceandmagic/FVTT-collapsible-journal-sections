@@ -1,29 +1,30 @@
 .cjs-collapsible {
   cursor: pointer;
-  background-color: inherit;
-  color: inherit;
 }
 .cjs-collapsible:not(.cjs-collapsedSect):hover::before {
   cursor: pointer;
   content:'[-] ';
+  color: #782e22;
 }
 .cjs-collapsible.cjs-collapsedSect:hover::before{
   cursor: pointer;
   content:'[+]';
+  color: #782e22;
 }
 
 .cjs-collapsedSect::before {
   content: '[+]';
+  color: #782e22;
 }
 
-section.cjs-no_collapse{
-  border-left: 2px dotted #782e22;
-}
+
 section.cjs-no_collapse::after{
   content: '[x]';
+  color: #782e22;
 }
 section.cjs-no_collapse *:first-child:before {
   content: '[x] ';
+  color: #782e22;
 }
 /*When a No Collapsible section is hovered...*/
 section.cjs-no_collapse:hover *:first-child:before {
