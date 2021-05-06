@@ -1,6 +1,10 @@
 # FVTT Collapsible Journal Sections
 All Headings, when clicked, will collapsed all of the content in that section. Also adds a custom style in the journal that you can use to define sections that won't ever be collapsed.
 
+<video width="320" height="240" controls autoplay muted>
+  <source src="cjs-preview.webm" type="video/webm">
+</video>
+
 ## Auto-Collapsible Headings
 All headings are automatically collapsible. Just click on a heading to collapse its contents.
 
