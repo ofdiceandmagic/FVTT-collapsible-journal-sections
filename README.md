@@ -1,5 +1,5 @@
 # FVTT Collapsible Journal Sections
-All Headings, when clicked, will collapsed all of the content in that section. Also adds a custom style in the journal that you can use to define sections that won't ever be collapsed.
+All Headings, when clicked, will collapse all of the content in that section. Also adds a custom style in the journal that you can use to define sections that won't ever be collapsed.
 
 <p style="float:left">
   <img src="https://github.com/ofdiceandmagic/FVTT-collapsible-journal-sections/blob/main/cjs-uncollapsed.png" width="400px">
