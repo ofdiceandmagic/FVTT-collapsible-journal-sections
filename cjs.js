@@ -75,6 +75,16 @@ Hooks.on('ready', async() => {
 		apply_default_classes_and_state(journalJqueryNodes[0].querySelectorAll('.editor-content'));
 		addCollapseListener(journalJqueryNodes[0].querySelector('.editor-content'));
 	});
+	Hooks.on("renderItemSheet", async (arg1, itemJqueryNodes, arg3) => {
+		console.log(itemJqueryNodes);
+		apply_default_classes_and_state(itemJqueryNodes[0].querySelectorAll('.editor-content'));
+		addCollapseListener(itemJqueryNodes[0].querySelector('.editor-content'));
+	});
+	Hooks.on("renderActorSheet", async (arg1, actorJqueryNodes, arg3) => {
+		console.log(actorJqueryNodes);
+		apply_default_classes_and_state(actorJqueryNodes[0].querySelectorAll('.editor-content'));
+		addCollapseListener(actorJqueryNodes[0].querySelector('.editor-content'));
+	});
 
 
 
