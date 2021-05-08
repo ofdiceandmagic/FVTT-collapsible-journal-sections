@@ -1,4 +1,5 @@
 /**
+ * @param {'static' | 'dynamic'} value
  * @returns {void}
  */
 function applyLayout(value) {
@@ -49,7 +50,6 @@ Hooks.on('ready', async() => {
 			"hide": "Collapsed"
 		},
 		default: "show",
-		onChange: value => console.log(value)
 	});
 	game.settings.register("collapsible-journal-sections", "layout", {
 		name: "Layout",
@@ -65,7 +65,6 @@ Hooks.on('ready', async() => {
 	});
 
 	let defaultCollapsedState = game.settings.get("collapsible-journal-sections", "default-collapsed-state");
-	console.log('CJS | CJS Settings | default collapsed state = '+defaultCollapsedState);
 
 
 	Hooks.on("renderJournalSheet", async() => {
@@ -99,44 +98,33 @@ Hooks.on('ready', async() => {
 
 		//if the first el is a heading
 		if ( get_h(first_el) ){
-			console.log('CJS | evaluating 1st el: '+first_el.nodeName)
 			apply_h_classes(first_el);
-			console.log('CJS | evaluated '+first_el.nodeName);
 		}
 		//if first_el isn't a h, keep moving nextSib until we get to a h
 		else{
 			while (!first_h){
-				console.log('CJS | evaluating '+nextSib.nodeName);
 				//if its a heading, apply collapsible
 				if ( get_h(nextSib) ){
 					nextSib.classList.add('cjs-collapsible');
 					first_h = true;
-					console.log('CJS | found first Heading');
 				}
 				else{
 					//move to the next sibling
 					nextSib = nextSib.nextElementSibling;
 				}
-				console.log('CJS | evaluated '+nextSib.nodeName);
 			}
 		}	
 
 		//if nextSib is a heading, apply h classes. Else, apply the default collapsed state.
 		while(nextSib){
-			console.log('CJS | evaluating nextSib: '+nextSib.nodeName);
 			if( get_h(nextSib) ){
-				console.log(nextSib.nodeName+' is a heading');
 				apply_h_classes(nextSib);
 			} else{
-				console.log(nextSib.nodeName+' isnt a heading');
 				apply_defaultCollapsedState(nextSib);
 			}
-			console.log('CJS | evaluated nextSib: '+nextSib.nodeName);
 			//move to next sibling
 			nextSib = nextSib.nextElementSibling;
 		}
-		
-		console.log('CJS | applied cjs classes and default collapse state.');
 	}
 
 	//add collapse functionality
@@ -192,11 +180,7 @@ Hooks.on('ready', async() => {
 				//then add cjs-collapsedSect to el
 				el.classList.add('cjs-collapsedSect');
 			}
-
-			console.log('CJS | CLICK | '+el.nodeName);
 		});
-
-		console.log('CJS | applied collapse functionality.');
 	}
 
 
@@ -204,15 +188,10 @@ Hooks.on('ready', async() => {
 	function get_h(el){
 		let get_h_result;
 		for(let i=h.length-1; i>=0; i--){
-			//console.log('CJS | el = '+el.nodeName);
-			//console.log('CJS | i = '+i);
-			//console.log('CJS | h[i] = '+h[i]);
 			if(el.nodeName == h[i]){
-				//console.log('CJS | get_h = '+i+1);
 				get_h_result = i+1;
 				return get_h_result;
 			} else{
-				//console.log('CJS | get_h = false');
 				get_h_result = false;
 			}
 		}
@@ -226,7 +205,6 @@ Hooks.on('ready', async() => {
 				el.classList.add('cjs-collapsedSect');
 			}
 			while(h_nextSib){
-				console.log('CJS| h_nextSib: '+h_nextSib.nodeName);
 				//if h_nextsib is an equal or higher-level h than el, stop the loop. Else, apply the default collapsed state and move on.
 				if( get_h(h_nextSib) && get_h(h_nextSib) <= get_h(el)){
 					h_nextSib = false;
@@ -241,18 +219,15 @@ Hooks.on('ready', async() => {
 					h_nextSib = h_nextSib.nextElementSibling;
 				}
 				else{
-					console.log('CJS | ERR | apply_h_classes: something went wrong');
+					console.error('CJS | ERR | apply_h_classes: something went wrong');
 				}
 			}
 	}
 
 	function apply_defaultCollapsedState(el){
-		console.log('CJS | defaultCollapsedState = '+defaultCollapsedState);
 		if (defaultCollapsedState == 'show'){
-			console.log('CJS | showing '+el.nodeName);
 			$(el).show();
 		}else{
-			console.log('CJS | hiding '+el.nodeName);
 			//if the element is a No Collapse section, return
 			if ( el.classList.contains('cjs-no_collapse') ){
 				return;
