@@ -73,7 +73,7 @@ Hooks.on('ready', async() => {
 
 	Hooks.on("renderJournalSheet", async (arg1, journalJqueryNodes, arg3) => {
 		apply_default_classes_and_state(journalJqueryNodes[0].querySelectorAll('.editor-content'));
-		collapse();
+		addCollapseListener(journalJqueryNodes[0].querySelector('.editor-content'));
 	});
 
 
@@ -123,8 +123,12 @@ Hooks.on('ready', async() => {
 	}
 
 	//add collapse functionality
-	function collapse(){
-		$('.cjs-collapsible').click((ev) => {
+	/**
+	 * @param {Node} editorContentNode
+	 */
+	function addCollapseListener(editorContentNode) {
+		console.log($(editorContentNode.querySelectorAll('.cjs-collapsible')));
+		$(editorContentNode.querySelectorAll('.cjs-collapsible')).click((ev) => {
 			let el = ev.currentTarget;
 			let nextSib = el.nextElementSibling;
 
