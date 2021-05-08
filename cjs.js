@@ -27,10 +27,16 @@ function applyLayout(value) {
 	}
 }
 /**
- * @returns {boolean}
+ * @returns {'static' | 'dynamic'}
  */
 function getLayout() {
 	return game.settings.get("collapsible-journal-sections", "layout");
+}
+/**
+ * @returns {'show' | 'hide'}
+ */
+function getDefaultCollapsedState() {
+	return game.settings.get("collapsible-journal-sections", "default-collapsed-state");
 }
 
 Hooks.on('ready', async() => {
@@ -63,8 +69,6 @@ Hooks.on('ready', async() => {
 		default: 'static',
 		onChange: value => applyLayout(value)
 	});
-
-	let defaultCollapsedState = game.settings.get("collapsible-journal-sections", "default-collapsed-state");
 
 
 	Hooks.on("renderJournalSheet", async (arg1, journalHtmlNodes, arg3) => {
@@ -203,7 +207,7 @@ Hooks.on('ready', async() => {
 	function apply_h_classes(el){
 			el.classList.add('cjs-collapsible');
 			let h_nextSib = el.nextElementSibling;
-			if(get_h(el) && defaultCollapsedState == 'hide'){
+			if(get_h(el) && getDefaultCollapsedState() == 'hide'){
 				el.classList.add('cjs-collapsedSect');
 			}
 			while(h_nextSib){
@@ -227,7 +231,7 @@ Hooks.on('ready', async() => {
 	}
 
 	function apply_defaultCollapsedState(el){
-		if (defaultCollapsedState == 'show'){
+		if (getDefaultCollapsedState() == 'show'){
 			$(el).show();
 		}else{
 			//if the element is a No Collapse section, return
