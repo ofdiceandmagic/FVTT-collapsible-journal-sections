@@ -53,7 +53,7 @@ Hooks.on('ready', async() => {
 	});
 	game.settings.register("collapsible-journal-sections", "layout", {
 		name: "Layout",
-		hint: "Should the layout be static (does not change) or dynamic (changes based on your mouse position)",
+		hint: "Should the layout be static (no mouse hover effects) or dynamic ('[+]' and 'Not Collapsible' are hidden by default and will become visible on mouse hover)",
 		config: true,
 		type: String,
 		choices: {
