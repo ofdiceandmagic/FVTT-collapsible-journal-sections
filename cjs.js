@@ -1,3 +1,37 @@
+/**
+ * @returns {void}
+ */
+function applyLayout(value) {
+	const addClasses = [];
+	const removeClasses = [];
+	if (value === 'static') {
+		addClasses.push('cjs-static-layout');
+		removeClasses.push('cjs-dynamic-layout');
+	} else if (value === 'dynamic') {
+		removeClasses.push('cjs-static-layout');
+		addClasses.push('cjs-dynamic-layout');
+	}
+	const editorNodes = document.querySelectorAll('.editor-content');
+	for (const editorNode of editorNodes) {
+		for (const addClass of addClasses) {
+			if (!editorNode.classList.contains(addClass)) {
+				editorNode.classList.add(addClass);
+			}
+		}
+		for (const removeClass of removeClasses) {
+			if (editorNode.classList.contains(removeClass)) {
+				editorNode.classList.remove(removeClass);
+			}
+		}
+	}
+}
+/**
+ * @returns {boolean}
+ */
+function getLayout() {
+	return game.settings.get("collapsible-journal-sections", "layout");
+}
+
 Hooks.on('ready', async() => {
 	//CONFIG.debug.hooks = true;
 
@@ -16,6 +50,18 @@ Hooks.on('ready', async() => {
 		},
 		default: "show",
 		onChange: value => console.log(value)
+	});
+	game.settings.register("collapsible-journal-sections", "layout", {
+		name: "Layout",
+		hint: "Should the layout be static (does not change) or dynamic (changes based on your mouse position)",
+		config: true,
+		type: String,
+		choices: {
+			"static": "Static",
+			"dynamic": "Dynamic"
+		},
+		default: 'static',
+		onChange: value => applyLayout(value)
 	});
 
 	let defaultCollapsedState = game.settings.get("collapsible-journal-sections", "default-collapsed-state");
@@ -46,6 +92,7 @@ Hooks.on('ready', async() => {
 
 	//add default classes and collapsed state to paragraphs and headings
 	function apply_default_classes_and_state(){
+		applyLayout(getLayout());
 		let first_el = document.querySelector('.editor-content').firstChild;
 		let first_h = false;
 		let nextSib = first_el.nextElementSibling;
