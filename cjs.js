@@ -1,8 +1,9 @@
 /**
  * @param {'static' | 'dynamic'} value
+ * @param {Node[]} editorNodes
  * @returns {void}
  */
-function applyLayout(value) {
+function applyLayout(value, editorNodes) {
 	const addClasses = [];
 	const removeClasses = [];
 	if (value === 'static') {
@@ -12,7 +13,6 @@ function applyLayout(value) {
 		removeClasses.push('cjs-static-layout');
 		addClasses.push('cjs-dynamic-layout');
 	}
-	const editorNodes = document.querySelectorAll('.editor-content');
 	for (const editorNode of editorNodes) {
 		for (const addClass of addClasses) {
 			if (!editorNode.classList.contains(addClass)) {
@@ -67,12 +67,12 @@ Hooks.on('ready', async() => {
 			"dynamic": "Dynamic"
 		},
 		default: 'static',
-		onChange: value => applyLayout(value)
+		onChange: value => applyLayout(value, document.querySelectorAll('.editor-content'))
 	});
 
 
-	Hooks.on("renderJournalSheet", async (arg1, journalHtmlNodes, arg3) => {
-		apply_default_classes_and_state();
+	Hooks.on("renderJournalSheet", async (arg1, journalJqueryNodes, arg3) => {
+		apply_default_classes_and_state(journalJqueryNodes[0].querySelectorAll('.editor-content'));
 		collapse();
 	});
 
@@ -94,9 +94,9 @@ Hooks.on('ready', async() => {
 
 
 	//add default classes and collapsed state to paragraphs and headings
-	function apply_default_classes_and_state(){
-		applyLayout(getLayout());
-		for (const editorContentNode of document.querySelectorAll('.editor-content')) {
+	function apply_default_classes_and_state(editorContentNodes){
+		applyLayout(getLayout(), editorContentNodes);
+		for (const editorContentNode of editorContentNodes) {
 			// Don't use editorContentNode.childNodes as these include text nodes
 			const childNodes = editorContentNode.querySelectorAll(':scope > *');
 			let largestFoundHeader = null;
