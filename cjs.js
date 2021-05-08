@@ -67,7 +67,7 @@ Hooks.on('ready', async() => {
 	let defaultCollapsedState = game.settings.get("collapsible-journal-sections", "default-collapsed-state");
 
 
-	Hooks.on("renderJournalSheet", async() => {
+	Hooks.on("renderJournalSheet", async (arg1, journalHtmlNodes, arg3) => {
 		apply_default_classes_and_state();
 		collapse();
 	});
@@ -92,38 +92,40 @@ Hooks.on('ready', async() => {
 	//add default classes and collapsed state to paragraphs and headings
 	function apply_default_classes_and_state(){
 		applyLayout(getLayout());
-		let first_el = document.querySelector('.editor-content').firstChild;
-		let first_h = false;
-		let nextSib = first_el.nextElementSibling;
-
-		//if the first el is a heading
-		if ( get_h(first_el) ){
-			apply_h_classes(first_el);
-		}
-		//if first_el isn't a h, keep moving nextSib until we get to a h
-		else{
-			while (!first_h){
-				//if its a heading, apply collapsible
-				if ( get_h(nextSib) ){
-					nextSib.classList.add('cjs-collapsible');
-					first_h = true;
-				}
-				else{
-					//move to the next sibling
-					nextSib = nextSib.nextElementSibling;
-				}
+		for (const editorContentNode of document.querySelectorAll('.editor-content')) {
+			let first_el = editorContentNode.firstChild;
+			let first_h = false;
+			let nextSib = first_el.nextElementSibling;
+	
+			//if the first el is a heading
+			if ( get_h(first_el) ){
+				apply_h_classes(first_el);
 			}
-		}	
-
-		//if nextSib is a heading, apply h classes. Else, apply the default collapsed state.
-		while(nextSib){
-			if( get_h(nextSib) ){
-				apply_h_classes(nextSib);
-			} else{
-				apply_defaultCollapsedState(nextSib);
+			//if first_el isn't a h, keep moving nextSib until we get to a h
+			else{
+				while (!first_h){
+					//if its a heading, apply collapsible
+					if ( get_h(nextSib) ){
+						nextSib.classList.add('cjs-collapsible');
+						first_h = true;
+					}
+					else{
+						//move to the next sibling
+						nextSib = nextSib.nextElementSibling;
+					}
+				}
+			}	
+	
+			//if nextSib is a heading, apply h classes. Else, apply the default collapsed state.
+			while(nextSib){
+				if( get_h(nextSib) ){
+					apply_h_classes(nextSib);
+				} else{
+					apply_defaultCollapsedState(nextSib);
+				}
+				//move to next sibling
+				nextSib = nextSib.nextElementSibling;
 			}
-			//move to next sibling
-			nextSib = nextSib.nextElementSibling;
 		}
 	}
 
