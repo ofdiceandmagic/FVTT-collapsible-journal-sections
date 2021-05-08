@@ -1,6 +1,7 @@
 .cjs-collapsible {
   cursor: pointer;
 }
+.cjs-static-layout .cjs-collapsible:not(.cjs-collapsedSect)::before,
 .cjs-collapsible:not(.cjs-collapsedSect):hover::before {
   cursor: pointer;
   content:'[-] ';
@@ -27,6 +28,6 @@ section.cjs-no_collapse *:first-child:before {
   color: #782e22;
 }
 /*When a No Collapsible section is hovered...*/
-section.cjs-no_collapse:hover *:first-child:before {
+.cjs-dynamic-layout section.cjs-no_collapse:hover *:first-child:before {
   content: '[x Not Collapsible x] ';
 }
