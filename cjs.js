@@ -1,8 +1,9 @@
 /**
  * @param {'static' | 'dynamic'} value
+ * @param {Node[]} editorNodes
  * @returns {void}
  */
-function applyLayout(value) {
+function applyLayout(value, editorNodes) {
 	const addClasses = [];
 	const removeClasses = [];
 	if (value === 'static') {
@@ -12,7 +13,6 @@ function applyLayout(value) {
 		removeClasses.push('cjs-static-layout');
 		addClasses.push('cjs-dynamic-layout');
 	}
-	const editorNodes = document.querySelectorAll('.editor-content');
 	for (const editorNode of editorNodes) {
 		for (const addClass of addClasses) {
 			if (!editorNode.classList.contains(addClass)) {
@@ -27,10 +27,16 @@ function applyLayout(value) {
 	}
 }
 /**
- * @returns {boolean}
+ * @returns {'static' | 'dynamic'}
  */
 function getLayout() {
 	return game.settings.get("collapsible-journal-sections", "layout");
+}
+/**
+ * @returns {'show' | 'hide'}
+ */
+function getDefaultCollapsedState() {
+	return game.settings.get("collapsible-journal-sections", "default-collapsed-state");
 }
 
 Hooks.on('ready', async() => {
@@ -61,15 +67,13 @@ Hooks.on('ready', async() => {
 			"dynamic": "Dynamic"
 		},
 		default: 'static',
-		onChange: value => applyLayout(value)
+		onChange: value => applyLayout(value, document.querySelectorAll('.editor-content'))
 	});
 
-	let defaultCollapsedState = game.settings.get("collapsible-journal-sections", "default-collapsed-state");
 
-
-	Hooks.on("renderJournalSheet", async() => {
-		apply_default_classes_and_state();
-		collapse();
+	Hooks.on("renderJournalSheet", async (arg1, journalJqueryNodes, arg3) => {
+		apply_default_classes_and_state(journalJqueryNodes[0].querySelectorAll('.editor-content'));
+		addCollapseListener(journalJqueryNodes[0].querySelector('.editor-content'));
 	});
 
 
@@ -90,46 +94,41 @@ Hooks.on('ready', async() => {
 
 
 	//add default classes and collapsed state to paragraphs and headings
-	function apply_default_classes_and_state(){
-		applyLayout(getLayout());
-		let first_el = document.querySelector('.editor-content').firstChild;
-		let first_h = false;
-		let nextSib = first_el.nextElementSibling;
-
-		//if the first el is a heading
-		if ( get_h(first_el) ){
-			apply_h_classes(first_el);
-		}
-		//if first_el isn't a h, keep moving nextSib until we get to a h
-		else{
-			while (!first_h){
-				//if its a heading, apply collapsible
-				if ( get_h(nextSib) ){
-					nextSib.classList.add('cjs-collapsible');
-					first_h = true;
+	function apply_default_classes_and_state(editorContentNodes){
+		applyLayout(getLayout(), editorContentNodes);
+		for (const editorContentNode of editorContentNodes) {
+			// Don't use editorContentNode.childNodes as these include text nodes
+			const childNodes = editorContentNode.querySelectorAll(':scope > *');
+			let largestFoundHeader = null;
+			for (const child of childNodes) {
+				const headerNumber = getHeaderNumber(child);
+				// Don't collapse any text located before the first header is encountered
+				if (largestFoundHeader !== null) {
+					// Do collapse any text which is either
+					// - not a header (located after a header)
+					// - a header which is smaller that any previous encountered headers
+					if (!headerNumber || largestFoundHeader < headerNumber) {
+						apply_defaultCollapsedState(child);
+					}
 				}
-				else{
-					//move to the next sibling
-					nextSib = nextSib.nextElementSibling;
+				if (headerNumber) {
+					apply_h_classes(child);
+					if (largestFoundHeader === null || largestFoundHeader > headerNumber) {
+						// h1 is larger than h2
+						largestFoundHeader = headerNumber;
+					}
 				}
 			}
-		}	
-
-		//if nextSib is a heading, apply h classes. Else, apply the default collapsed state.
-		while(nextSib){
-			if( get_h(nextSib) ){
-				apply_h_classes(nextSib);
-			} else{
-				apply_defaultCollapsedState(nextSib);
-			}
-			//move to next sibling
-			nextSib = nextSib.nextElementSibling;
 		}
 	}
 
 	//add collapse functionality
-	function collapse(){
-		$('.cjs-collapsible').click((ev) => {
+	/**
+	 * @param {Node} editorContentNode
+	 */
+	function addCollapseListener(editorContentNode) {
+		console.log($(editorContentNode.querySelectorAll('.cjs-collapsible')));
+		$(editorContentNode.querySelectorAll('.cjs-collapsible')).click((ev) => {
 			let el = ev.currentTarget;
 			let nextSib = el.nextElementSibling;
 
@@ -141,8 +140,8 @@ Hooks.on('ready', async() => {
 						nextSib = nextSib.nextElementSibling;
 						continue; 
 					}
-					if( get_h(nextSib) ){
-						if ( get_h(nextSib) <= get_h(el) ){
+					if( getHeaderNumber(nextSib) ){
+						if ( getHeaderNumber(nextSib) <= getHeaderNumber(el) ){
 							nextSib = false;
 						} else{ 
 							$(nextSib).show();
@@ -164,8 +163,8 @@ Hooks.on('ready', async() => {
 						nextSib = nextSib.nextElementSibling;
 						continue; 
 					}
-					if( get_h(nextSib) ){
-						if ( get_h(nextSib) <= get_h(el) ){
+					if( getHeaderNumber(nextSib) ){
+						if ( getHeaderNumber(nextSib) <= getHeaderNumber(el) ){
 							nextSib = false;
 						} else{ 
 							$(nextSib).hide();
@@ -184,48 +183,28 @@ Hooks.on('ready', async() => {
 	}
 
 
-
-	function get_h(el){
-		let get_h_result;
-		for(let i=h.length-1; i>=0; i--){
-			if(el.nodeName == h[i]){
-				get_h_result = i+1;
-				return get_h_result;
-			} else{
-				get_h_result = false;
-			}
+	/**
+	 * @param {Node} el 
+	 * @return {number | false} the header number (h1 => 1)
+	 */
+	function getHeaderNumber(el){
+		const index = h.indexOf(el.nodeName);
+		if (index >= 0) {
+			return index + 1;
+		} else {
+			return false;
 		}
-		return get_h_result;
 	}
 
 	function apply_h_classes(el){
-			el.classList.add('cjs-collapsible');
-			let h_nextSib = el.nextElementSibling;
-			if(get_h(el) && defaultCollapsedState == 'hide'){
-				el.classList.add('cjs-collapsedSect');
-			}
-			while(h_nextSib){
-				//if h_nextsib is an equal or higher-level h than el, stop the loop. Else, apply the default collapsed state and move on.
-				if( get_h(h_nextSib) && get_h(h_nextSib) <= get_h(el)){
-					h_nextSib = false;
-				}
-				//if h_nextsib is a lower-level h than the el, apply default collapsed state and move on to the next sib.
-				else if ( get_h(h_nextSib) && get_h(h_nextSib) > get_h(el) ){
-					apply_defaultCollapsedState(h_nextSib);
-					h_nextSib = h_nextSib.nextElementSibling;
-				}
-				else if (!get_h(h_nextSib)){ //if h_nextSib isn't a heading, apply the default collapsed state and move on
-					apply_defaultCollapsedState(h_nextSib);
-					h_nextSib = h_nextSib.nextElementSibling;
-				}
-				else{
-					console.error('CJS | ERR | apply_h_classes: something went wrong');
-				}
-			}
+		el.classList.add('cjs-collapsible');
+		if(getHeaderNumber(el) && getDefaultCollapsedState() == 'hide'){
+			el.classList.add('cjs-collapsedSect');
+		}
 	}
 
 	function apply_defaultCollapsedState(el){
-		if (defaultCollapsedState == 'show'){
+		if (getDefaultCollapsedState() == 'show'){
 			$(el).show();
 		}else{
 			//if the element is a No Collapse section, return
