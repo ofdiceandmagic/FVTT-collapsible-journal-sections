@@ -73,17 +73,26 @@ Hooks.on('ready', async() => {
 
 	Hooks.on("renderJournalSheet", async (arg1, journalJqueryNodes, arg3) => {
 		apply_default_classes_and_state(journalJqueryNodes[0].querySelectorAll('.editor-content'));
-		addCollapseListener(journalJqueryNodes[0].querySelector('.editor-content'));
+		addCollapseListener(journalJqueryNodes[0].querySelectorAll('.editor-content'));
+		//add functionality to 'secret' sections
+		apply_default_classes_and_state(journalJqueryNodes[0].querySelectorAll('.editor-content .secret'));
+		addCollapseListener(journalJqueryNodes[0].querySelectorAll('.editor-content .secret'));
 	});
 	Hooks.on("renderItemSheet", async (arg1, itemJqueryNodes, arg3) => {
 		console.log(itemJqueryNodes);
 		apply_default_classes_and_state(itemJqueryNodes[0].querySelectorAll('.editor-content'));
-		addCollapseListener(itemJqueryNodes[0].querySelector('.editor-content'));
+		addCollapseListener(itemJqueryNodes[0].querySelectorAll('.editor-content'));
+		//add functionality to 'secret' sections
+		apply_default_classes_and_state(itemJqueryNodes[0].querySelectorAll('.editor-content .secret'));
+		addCollapseListener(itemJqueryNodes[0].querySelectorAll('.editor-content .secret'));
 	});
 	Hooks.on("renderActorSheet", async (arg1, actorJqueryNodes, arg3) => {
 		console.log(actorJqueryNodes);
 		apply_default_classes_and_state(actorJqueryNodes[0].querySelectorAll('.editor-content'));
-		addCollapseListener(actorJqueryNodes[0].querySelector('.editor-content'));
+		addCollapseListener(actorJqueryNodes[0].querySelectorAll('.editor-content'));
+		//add functionality to 'secret' sections
+		apply_default_classes_and_state(actorJqueryNodes[0].querySelectorAll('.editor-content .secret'));
+		addCollapseListener(actorJqueryNodes[0].querySelectorAll('.editor-content .secret'));
 	});
 
 
@@ -136,60 +145,63 @@ Hooks.on('ready', async() => {
 	/**
 	 * @param {Node} editorContentNode
 	 */
-	function addCollapseListener(editorContentNode) {
-		console.log($(editorContentNode.querySelectorAll('.cjs-collapsible')));
-		$(editorContentNode.querySelectorAll('.cjs-collapsible')).click((ev) => {
-			let el = ev.currentTarget;
-			let nextSib = el.nextElementSibling;
-
-			//if the clicked section is collapsed, go through each element and show it.
-			if(el.classList.contains('cjs-collapsedSect')){
-				while(nextSib){
-					if (nextSib.classList.contains('cjs-no_collapse')){
-						//if its a Not Collapsible section, skip it
-						nextSib = nextSib.nextElementSibling;
-						continue; 
-					}
-					if( getHeaderNumber(nextSib) ){
-						if ( getHeaderNumber(nextSib) <= getHeaderNumber(el) ){
-							nextSib = false;
-						} else{ 
+	function addCollapseListener(editorContentNodes) {
+		for (const editorContentNode of editorContentNodes){
+			console.log($(editorContentNode.querySelectorAll('.cjs-collapsible')));
+			$(editorContentNode.querySelectorAll('.cjs-collapsible')).click((ev) => {
+				let el = ev.currentTarget;
+				let nextSib = el.nextElementSibling;
+	
+				//if the clicked section is collapsed, go through each element and show it.
+				if(el.classList.contains('cjs-collapsedSect')){
+					while(nextSib){
+						if (nextSib.classList.contains('cjs-no_collapse')){
+							//if its a Not Collapsible section, skip it
+							nextSib = nextSib.nextElementSibling;
+							continue; 
+						}
+						if( getHeaderNumber(nextSib) ){
+							if ( getHeaderNumber(nextSib) <= getHeaderNumber(el) ){
+								nextSib = false;
+							} else{ 
+								$(nextSib).show();
+								nextSib.classList.remove('cjs-collapsedSect');
+								nextSib = nextSib.nextElementSibling;
+							}
+						}else{ 
 							$(nextSib).show();
-							nextSib.classList.remove('cjs-collapsedSect');
 							nextSib = nextSib.nextElementSibling;
 						}
-					}else{ 
-						$(nextSib).show();
-						nextSib = nextSib.nextElementSibling;
 					}
-				}
-				//then remove cjs-collapsedSect from el
-				el.classList.remove('cjs-collapsedSect');
-			} else {
-				//if the clicked section isn't collapsed, go through each element and hide it.
-				while(nextSib){
-					if (nextSib.classList.contains('cjs-no_collapse')){
-						//if its a Not Collapsible section, skip it
-						nextSib = nextSib.nextElementSibling;
-						continue; 
-					}
-					if( getHeaderNumber(nextSib) ){
-						if ( getHeaderNumber(nextSib) <= getHeaderNumber(el) ){
-							nextSib = false;
-						} else{ 
+					//then remove cjs-collapsedSect from el
+					el.classList.remove('cjs-collapsedSect');
+				} else {
+					//if the clicked section isn't collapsed, go through each element and hide it.
+					while(nextSib){
+						if (nextSib.classList.contains('cjs-no_collapse')){
+							//if its a Not Collapsible section, skip it
+							nextSib = nextSib.nextElementSibling;
+							continue; 
+						}
+						if( getHeaderNumber(nextSib) ){
+							if ( getHeaderNumber(nextSib) <= getHeaderNumber(el) ){
+								nextSib = false;
+							} else{ 
+								$(nextSib).hide();
+								nextSib.classList.add('cjs-collapsedSect');
+								nextSib = nextSib.nextElementSibling;
+							}
+						}else{ 
 							$(nextSib).hide();
-							nextSib.classList.add('cjs-collapsedSect');
 							nextSib = nextSib.nextElementSibling;
 						}
-					}else{ 
-						$(nextSib).hide();
-						nextSib = nextSib.nextElementSibling;
 					}
+					//then add cjs-collapsedSect to el
+					el.classList.add('cjs-collapsedSect');
 				}
-				//then add cjs-collapsedSect to el
-				el.classList.add('cjs-collapsedSect');
-			}
-		});
+			});
+		}
+		
 	}
 
 
