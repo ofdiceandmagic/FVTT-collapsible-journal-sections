@@ -20,3 +20,6 @@ Text before and after it will collapse as normal.
 #### Default Collapsed State
 **_Shown._** When you open a journal entry, all the sections will be shown.  
 **_Collapsed._** When you open a journal entry, only top-level headings will be shown.
+### Layout
+**_Static._** No mouse hover effects.  
+**_Dynamic._** '[+]' and 'Not Collapsible' will be hidden by default and will become visible on mouse hover.
