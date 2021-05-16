@@ -16,6 +16,13 @@ Text before and after it will collapse as normal.
 
 <img src="https://github.com/ofdiceandmagic/FVTT-collapsible-journal-sections/blob/main/cjs-editor-style.png" width="500px">
 
+## Map Note Journal Links
+You can also link a map note to a specific section within the journal entry.
+
+Here's How
+1. After placing a map note for a journal entry, enter the heading you want to link to in the Text Label field.
+2. That’s it! Now when you click that map note to open its journal, if there’s a heading matching the text you entered into the Text Label field, that section will be expanded and highlighted.
+
 ## Settings
 #### Default Collapsed State
 **_Shown._** When you open a journal entry, all the sections will be shown.  
