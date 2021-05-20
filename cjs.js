@@ -97,9 +97,6 @@ Hooks.on('ready', async() => {
 		//add functionality to 'secret' sections
 		apply_default_classes_and_state(journalJqueryNodes[0].querySelectorAll('.editor-content .secret'));
 		addCollapseListener(journalJqueryNodes[0].querySelectorAll('.editor-content .secret'));
-		//add functionality to 'cjs-top_level_secret' sections
-		apply_default_classes_and_state(journalJqueryNodes[0].querySelectorAll('.editor-content .cjs-top_level_secret'));
-		addCollapseListener(journalJqueryNodes[0].querySelectorAll('.editor-content .cjs-top_level_secret'));
 	});
 	Hooks.on("renderItemSheet", async (arg1, itemJqueryNodes, arg3) => {
 		console.log(itemJqueryNodes);
@@ -108,9 +105,6 @@ Hooks.on('ready', async() => {
 		//add functionality to 'secret' sections
 		apply_default_classes_and_state(itemJqueryNodes[0].querySelectorAll('.editor-content .secret'));
 		addCollapseListener(itemJqueryNodes[0].querySelectorAll('.editor-content .secret'));
-		//add functionality to 'cjs-top_level_secret' sections
-		apply_default_classes_and_state(journalJqueryNodes[0].querySelectorAll('.editor-content .cjs-top_level_secret'));
-		addCollapseListener(journalJqueryNodes[0].querySelectorAll('.editor-content .cjs-top_level_secret'));
 	});
 	Hooks.on("renderActorSheet", async (arg1, actorJqueryNodes, arg3) => {
 		console.log(actorJqueryNodes);
@@ -119,9 +113,6 @@ Hooks.on('ready', async() => {
 		//add functionality to 'secret' sections
 		apply_default_classes_and_state(actorJqueryNodes[0].querySelectorAll('.editor-content .secret'));
 		addCollapseListener(actorJqueryNodes[0].querySelectorAll('.editor-content .secret'));
-		//add functionality to 'cjs-top_level_secret' sections
-		apply_default_classes_and_state(journalJqueryNodes[0].querySelectorAll('.editor-content .cjs-top_level_secret'));
-		addCollapseListener(journalJqueryNodes[0].querySelectorAll('.editor-content .cjs-top_level_secret'));
 	});
 
 
