@@ -27,7 +27,16 @@ section.cjs-no_collapse *:first-child:before {
   content: '[x] ';
   color: #782e22;
 }
-/*When a No Collapsible section is hovered...*/
+/*when a No Collapsible section is hovered*/
 .cjs-dynamic-layout section.cjs-no_collapse:hover *:first-child:before {
   content: '[x Not Collapsible x] ';
+}
+
+/*highlight sections that match the text input into the map note's Text Label*/
+.labelTxtMatchedSection {
+  background-color: rgba(251, 255, 0, 0.2);
+}
+
+section.secret.cjs-top_level_secret {
+  background: rgba(121, 0, 0, 0.11);
 }
