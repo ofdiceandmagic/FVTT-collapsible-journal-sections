@@ -36,3 +36,7 @@ section.cjs-no_collapse *:first-child:before {
 .labelTxtMatchedSection {
   background-color: rgba(251, 255, 0, 0.2);
 }
+
+section.secret.cjs-top_level_secret {
+  background: rgba(121, 0, 0, 0.11);
+}
