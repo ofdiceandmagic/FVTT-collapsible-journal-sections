@@ -8,7 +8,7 @@ Hooks.once('ready', () => {
         ui.notifications.error("Collapsible Journal Sections requires the 'libWrapper' module. Please install and activate it.");
 });
 Hooks.once("libWrapper.Ready", () => {
-	libWrapper.register('collapsible-journal-sections-alpha', "Note.prototype._onClickLeft2", async function(wrapped, ...args) {
+	libWrapper.register('collapsible-journal-sections', "Note.prototype._onClickLeft2", async function(wrapped, ...args) {
 		
 		//if this note has a label, save the label text of this note so we can check later if it matches any of the headers.
 		if (this.data.text) labeltxt = this.data.text;
