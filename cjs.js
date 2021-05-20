@@ -258,7 +258,7 @@ Hooks.on('ready', async() => {
 				} else {
 					//if the clicked section isn't collapsed, go through each element and hide it.
 					while(nextSib){
-						if (nextSib.classList.contains('cjs-no_collapse') || el.classList.contains('cjs-top_level_secret')){
+						if (nextSib.classList.contains('cjs-no_collapse') || nextSib.classList.contains('cjs-top_level_secret')){
 							//if its a Not Collapsible section, skip it
 							nextSib = nextSib.nextElementSibling;
 							continue; 
