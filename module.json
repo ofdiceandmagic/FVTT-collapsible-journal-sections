@@ -1,7 +1,7 @@
 {
   "name": "collapsible-journal-sections",
   "title": "Collapsible Journal Sections",
-  "description": "All Headings, when clicked, will collapsed all of the content in that section. Also adds a custom style in the journal that you can use to define sections that won't ever be collapsed.",
+  "description": "All Headings, when clicked, will collapse all of the content in that section. Also adds a custom style in the journal that you can use to define sections that won't ever be collapsed.  Also adds Map Note Linking. Add a heading's text to the Text Label field of the map note to highlight that section when you click the map note to open the entry.",
   "author": "Of Dice And Magic, TPNils",
   "version": "1.2.8",
   "minimumCoreVersion": "0.7.0",
