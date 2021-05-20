@@ -23,6 +23,12 @@ Here's How
 1. After placing a map note for a journal entry, enter the heading you want to link to in the Text Label field.
 2. That’s it! Now when you click that map note to open its journal, if there’s a heading matching the text you entered into the Text Label field, that section will be expanded and highlighted.
 
+## Top-Level Secrets
+Normal secret sections will collapse into headings just as text would. The new 'Top-Level Secret' style fixes this.  
+**Top-Level Secret sections won't be collapsed.**  
+
+_Don't make a section both a secret and a top-level secret. Choose only 1._
+
 ## Settings
 #### Default Collapsed State
 **_Shown._** When you open a journal entry, all the sections will be shown.  
