@@ -1,27 +1,3 @@
-//CONFIG.debug.hooks = true;
-
-let labeltxt;
-
-//prompt user if libWrapper isn't installed
-Hooks.once('ready', () => {
-    if(!game.modules.get('lib-wrapper')?.active && game.user.isGM)
-        ui.notifications.error("Collapsible Journal Sections requires the 'libWrapper' module. Please install and activate it.");
-});
-/**
- * 
- */
-Hooks.once("libWrapper.Ready", () => {
-	libWrapper.register('collapsible-journal-sections-alpha', "Note.prototype._onClickLeft2", async function(wrapped, ...args) {
-		
-		//if this note has a label, save the label text of this note so we can check later if it matches any of the headers.
-		if (this.data.text) labeltxt = this.data.text;
-
-		//render this note's journal entry, as per usual.
-		this.entry.sheet.render(true);
-	}, "MIXED");
-})
-
-
 /**
  * @param {'static' | 'dynamic'} value
  * @param {Node[]} editorNodes
@@ -64,6 +40,7 @@ function getDefaultCollapsedState() {
 }
 
 Hooks.on('ready', async() => {
+	//CONFIG.debug.hooks = true;
 
 	const h = ['H1','H2','H3','H4','H5','H6'];
 
@@ -149,33 +126,12 @@ Hooks.on('ready', async() => {
 					// Do collapse any text which is either
 					// - not a header (located after a header)
 					// - a header which is smaller that any previous encountered headers
-					if (!headerNumber && !child.classList.contains('labelTxtMatchedSection')) {
+					if (!headerNumber || largestFoundHeader < headerNumber) {
 						apply_defaultCollapsedState(child);
-					}else if (largestFoundHeader < headerNumber){
-						let headerTxt = child.textContent;
-						//if labeltxt matches the text of this header, show it and it's contents.
-						//else apply default collapsed state
-						if (headerTxt == labeltxt) {
-							console.log('headerTxt and labeltxt are ==');
-							$(child).show().addClass('labelTxtMatchedSection');
-							//show its contents
-							showSection(child, true);
-						} else if (!child.classList.contains('labelTxtMatchedSection')){
-							apply_defaultCollapsedState(child);
-						}
 					}
 				}
 				if (headerNumber) {
 					apply_h_classes(child);
-					let headerTxt = child.textContent;
-					console.log('headerTxt = '+headerTxt);
-					console.log('labeltxt = '+labeltxt);
-					if (headerTxt == labeltxt) {
-						console.log('headerTxt and labeltxt are ==');
-						$(child).show().addClass('labelTxtMatchedSection');
-						//show its contents
-						showSection(child, true);
-					}
 					if (largestFoundHeader === null || largestFoundHeader > headerNumber) {
 						// h1 is larger than h2
 						largestFoundHeader = headerNumber;
@@ -183,30 +139,6 @@ Hooks.on('ready', async() => {
 				}
 			}
 		}
-	}
-
-	function showSection(el, addLabelTxtMatchedSection){
-		let nextSib = el.nextElementSibling;
-
-		//if the clicked section is collapsed, go through each element and show it.
-			while(nextSib){
-				if( getHeaderNumber(nextSib) ){
-					if ( getHeaderNumber(nextSib) <= getHeaderNumber(el) ){
-						nextSib = false;
-					} else{ 
-						$(nextSib).show();
-						nextSib.classList.remove('cjs-collapsedSect');
-						nextSib.classList.add('labelTxtMatchedSection');
-						nextSib = nextSib.nextElementSibling;
-					}
-				}else{ 
-					$(nextSib).show();
-					nextSib.classList.add('labelTxtMatchedSection');
-					nextSib = nextSib.nextElementSibling;
-				}
-			}
-			//then remove cjs-collapsedSect from el
-			el.classList.remove('cjs-collapsedSect');
 	}
 
 	//add collapse functionality
