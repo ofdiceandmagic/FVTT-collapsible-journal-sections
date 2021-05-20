@@ -126,7 +126,7 @@ Hooks.on('ready', async() => {
             title: "Top-Level Secret",
 			block: 'section',
 			classes: 'cjs-top_level_secret',
-			wrapper: true
+			wrapper: false
         },
 		{
 			title: "Not Collapsible",
