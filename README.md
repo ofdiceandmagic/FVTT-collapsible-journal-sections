@@ -27,7 +27,7 @@ Here's How
 Normal secret sections will collapse into headings just as text would. The new 'Top-Level Secret' style fixes this.  
 **Top-Level Secret sections won't be collapsed.**  
 
-_Don't make a section both a secret and a top-level secret. Choose only 1._
+_Make sure to put **BOTH** the 'secret' style and the 'Top-Level Secret' style on a Top-Level Secret._
 
 ## Settings
 #### Default Collapsed State
