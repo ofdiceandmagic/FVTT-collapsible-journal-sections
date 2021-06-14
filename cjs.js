@@ -29,11 +29,11 @@
 	 if (isNewV){
 		 //if it is a new version
 		 game.settings.set(MODNAME, "version", currentV);
-		 if (game.user.isGM && game.settings.get(MODNAME, "show-welcome-message")){
-			 //if user is gm and show-welcome-message is true, set renderDialog to true
-			 renderDialog = true;
-		 }
 	 }
+	 if ((game.user.isGM && (game.settings.get(MODNAME, "show-welcome-message") || isNewV) )){
+		//if user is gm and either show-welcome-message is true or its a new version, set renderDialog to true
+		renderDialog = true;
+	}
  
  
 	 const html = await renderTemplate(`modules/${MODNAME}/templates/welcome-screen.html`);
