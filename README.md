@@ -1,5 +1,8 @@
 # FVTT Collapsible Journal Sections
-All Headings, when clicked, will collapse all of the content in that section. Also adds a custom style in the journal that you can use to define sections that won't ever be collapsed.
+**Left Click** a header to expand the section. By default, it will show subheadings, each of which you can click to expand its section, etc.
+**Right Click** a header to expand all of its subheadings at once.
+
+Also adds several custom styles that you can use to define sections that won't ever be collapsed and refine the collapse behavior of secret sections.
 
 <p style="float:left">
   <img src="cjs-uncollapsed.png" width="400px">
@@ -21,7 +24,7 @@ You can also link a map note to a specific section within the journal entry.
 
 Here's How
 1. After placing a map note for a journal entry, enter the heading you want to link to in the Text Label field.
-2. That’s it! Now when you click that map note to open its journal, if there’s a heading matching the text you entered into the Text Label field, that section will be expanded and highlighted.
+2. That’s it! Now when you click that map note to open its journal, if there’s a heading matching the text you entered into the Text Label field, that section will be expanded and its header will be highlighted.
 
 <p style="float:left">
   <img src="cjs-map-link-text-label.png" width="400px">
