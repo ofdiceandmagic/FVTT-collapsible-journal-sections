@@ -1,5 +1,6 @@
 # FVTT Collapsible Journal Sections
 **Left Click** a header to expand the section. By default, it will show subheadings, each of which you can click to expand its section, etc.
+
 **Right Click** a header to expand all of its subheadings at once.
 
 Also adds several custom styles that you can use to define sections that won't ever be collapsed and refine the collapse behavior of secret sections.
