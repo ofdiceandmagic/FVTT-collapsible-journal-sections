@@ -3,7 +3,7 @@
   "title": "Collapsible Journal Sections",
   "description": "All Headings, when clicked, will collapse all of the content in that section. Also adds a custom style in the journal that you can use to define sections that won't ever be collapsed.  Also adds Map Note Linking. Add a heading's text to the Text Label field of the map note to highlight that section when you click the map note to open the entry.",
   "author": "Of Dice And Magic, TPNils",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "minimumCoreVersion": "0.7.0",
   "compatibleCoreVersion": "0.8.6",
   "esmodules": [
@@ -21,7 +21,7 @@
   ],
   "url": "https://github.com/ofdiceandmagic/FVTT-collapsible-journal-sections",
   "manifest": "https://github.com/ofdiceandmagic/FVTT-collapsible-journal-sections/releases/latest/download/module.json",
-  "download": "https://github.com/ofdiceandmagic/FVTT-collapsible-journal-sections/releases/download/1.3.0/module.zip",
+  "download": "https://github.com/ofdiceandmagic/FVTT-collapsible-journal-sections/releases/download/1.3.1/module.zip",
   "license": "https://github.com/ofdiceandmagic/FVTT-collapsible-journal-sections/blob/main/LICENSE",
   "readme": "https://github.com/ofdiceandmagic/FVTT-collapsible-journal-sections/blob/main/README.md"
 }
